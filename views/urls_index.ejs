@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include partials/_header %>
+  <title>TinyApp</title>
+</head>
+<body>
+  <% if (username !== null){ %>
+  <h2>Your URLs</h2>
+    <ul>
+      <% for (var key in urls) { %>
+      <li><%= 'URL: ' + urls[key] + ' Key: ' + key %></li>
+      <form method="POST" action='/urls/<%=key%>/delete'><button>Delete</button></form>
+      <form method="GET" action='/urls/<%=key%>'><button>Edit</button></form>
+      <% }; %>
+    </ul>
+  <form action="http://localhost:8080/urls/new">
+        <button>Shorten a new URL</button>
+  </form>
+  <% } else { %>
+  <h1>Register or login to shorten URLs!</h1>
+  <% } %>
+</body>
+</html>

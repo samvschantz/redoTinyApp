@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <% include partials/_header %>
+  <title>TinyApp</title>
+</head>
+<body>
+  <% if (username !== undefined){ %>
+  <h4><%= ' Short URL: ' + shortURL %></h4>
+  <form action="/urls/<%=shortURL%>" method="POST" style="margin:150px;">
+    <label for="longURL">Update:</label>
+    <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+    <input type="submit" value="Submit">
+  </form>
+  <% } else { %>
+    <h1>Register or login to shorten URLs!</h1>
+  <% } %>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!-- Header Partial -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+    <ul>
+      <% if (!email){%>
+      <form action="http://localhost:8080/login">
+        <button>Login</button>
+      </form>
+      <form action="http://localhost:8080/register">
+        <button>Register</button>
+      </form>
+      <% } else { %>
+        <form action="/logout" method="POST" style="margin:10px;">
+          <button>Logout</button>
+        </form>
+      <% } %>
+      <%=email%>
+    </ul>
+</body>
+</html>
