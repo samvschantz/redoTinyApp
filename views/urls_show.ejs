@@ -5,7 +5,7 @@
   <title>TinyApp</title>
 </head>
 <body>
-  <% if (username !== undefined){ %>
+  <% if (verifier === username && username !== null){%>
   <h4><%= ' Short URL: ' + shortURL %></h4>
   <form action="/urls/<%=shortURL%>" method="POST" style="margin:150px;">
     <label for="longURL">Update:</label>

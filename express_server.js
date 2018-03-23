@@ -21,33 +21,9 @@ function generateRandomString() {
     return text;
   }
 
-const users = {
-  "userRandomID": {
-    id: "userRandomID",
-    email: "user@example.com",
-    password: "purple-monkey-dinosaur"
-  },
- "user2RandomID": {
-    id: "user2RandomID",
-    email: "user2@example.com",
-    password: "dishwasher-funk"
-  }
-}
+const users = {};
 
-var urlDatabase = {
-  "x2d4f" : {
-    userID : 'userRandomID',
-    longURL : "http://www.lighthouse.ca",
-  },
-  "x3rt3" : {
-    userID : 'user2RandomID',
-    longURL : "http://www.google.ca",
-  },
-  "7gf65" : {
-    userID : 'user2RandomID',
-    longURL : "http://www.amazon.ca",
-  },
-}
+var urlDatabase = {};
 
 function urlsForUser(id){
   usersUrls = {};
@@ -65,7 +41,6 @@ app.get("/", (req, res) => {
 
 app.get("/register", (req, res) => {
   let templateVars = {
-    //username: req.cookies['userID']
     username: undefined,
     email: undefined
   };
@@ -84,7 +59,6 @@ app.post("/register", (req, res) => {
       res.sendStatus(400)
     }
   };
-  // checks whether email or password field are filled in
   if (!email || !password){
     res.sendStatus(400)
   } else {
@@ -93,7 +67,6 @@ app.post("/register", (req, res) => {
       email: email,
       password: password
     };
-    //res.cookie("userID", userID)
     req.session.userID = userID
     res.redirect("http://localhost:8080/urls/")
   };
@@ -115,7 +88,7 @@ app.get("/urls", (req, res) => {
   let username = req.session.userID;
   let usersUrls = urlsForUser(username)
   console.log('This is users urls ' + usersUrls)
-  let templateVars = {}                         //urlDatabase fix
+  let templateVars = {}
   if (req.session.userID === null){
     templateVars.username = null
     templateVars.email = null
@@ -144,14 +117,13 @@ app.get("/urls/new", (req, res) => {
 });
 
 app.post("/urls", (req, res) => {
-  //let userID = req.cookies.userID
   let userID = req.session.userID
   var shortURL = generateRandomString()
   var longURL = req.body.longURL
   urlDatabase[shortURL] = {
     userID : userID,
     longURL : longURL
-  }         //these are fixed
+  }
   res.redirect('http://localhost:8080/urls/' + shortURL);
 });
 
@@ -167,34 +139,43 @@ app.post("/logout", (req, res) => {
 })
 
 app.get("/urls/:id", (req, res) => {
-  //var username = req.cookies['userID']
-  var username = req.session.userID
-  let templateVars = {
-    shortURL: req.params.id, urlDatabase,            //uses urlDatabase
+  var shortURL = req.params.id
+  console.log('should be short url ' + shortURL)
+  var username = req.session.userID;
+  let templateVars = {};
+  console.log('Were checking if this ' + JSON.stringify(urlDatabase[shortURL]['userID']))
+  console.log('is equal to this ' + username)
+  if (req.session.userID === null){
+    templateVars.username = null,
+    templateVars.email = null,
+    templateVars.urls = null,
+    templateVars.verifier = null
+  } else {
+  templateVars = {
+    shortURL: req.params.id, urlDatabase,
     username: username,
-    email: users[username]['email'] //this is where you left it last night
+    email: users[username]['email'],
+    verifier: urlDatabase[shortURL]['userID']
     };
+  }
+  console.log('Line 184 ' + JSON.stringify(templateVars))
   res.render("urls_show", templateVars);
 });
 
 app.post("/urls/:id", (req, res) => {
   let shortURL = req.params.id
   let longURL = req.body.longURL
-  //let userID = req.cookies.userID
   let userID = req.session.userID
-  urlDatabase[userID][shortURL] = longURL                   //uses urlDatabase
   res.redirect("http://localhost:8080/urls/")
 });
 
 app.post("/login", (req, res) =>{
-  //let userID = req.cookies.userID
   let userID = req.session.userID
   let email = req.body.email
   let password = req.body.password
   let matchFound = false
   for (var person in users){
     if (users[person]['email'] === email && bcrypt.compareSync(password, users[person]['password'])){
-      //res.cookie("userID", users[person]['id'])
       req.session.userID = users[person]['id']
       matchFound = true
       }
