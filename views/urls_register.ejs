@@ -5,6 +5,11 @@
   <title>Register!</title>
 </head>
 <body>
+  <% if (displayError === true){ %>
+  <h4>Please re-enter your email and password</h4>
+  <% } else if (displayEmailError === true) { %>
+  <h4>Someone is already using that email!</h4>
+  <% } else { %>
   <h2>Email</h2>
   <form action="/register" method="POST">
     <label for="email">Email</label>
@@ -13,6 +18,7 @@
     <label for="password">Password</label>
     <input id="password" type="password" name="password" placeholder="supersecretpassword" style="width: 300px">
     <input type="submit" value="Submit">
+    <% } %>
   </form>
 </body>
 </html>

@@ -1,0 +1,28 @@
+{
+  "name": "tinyApp",
+  "main": "server.js",
+  "dependencies": {
+    "ejs": "^1.0.0",
+    "express": "^4.6.1"
+  },
+  "description": "Tiny app is a web application built with node that will allow a user to login/logout and shorten and keep a number of URLs.",
+  "version": "1.0.0",
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samvschantz/redoTinyApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samvschantz/redoTinyApp/issues"
+  },
+  "homepage": "https://github.com/samvschantz/redoTinyApp#readme"
+}
